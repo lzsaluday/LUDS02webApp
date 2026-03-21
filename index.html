@@ -295,7 +295,63 @@
         });
     }
 
-    // 3. Initialisation au chargement
+    // 3. HTML5 Video Tracking Logic (GTM Integration)
+    function initVideoTracking() {
+        var video = document.querySelector('video');
+        if (!video) return;
+
+        var videoName = video.querySelector('source') ? video.querySelector('source').src.split('/').pop() : "medicam_video";
+        var percentages = [25, 50, 75, 90];
+        var alreadySent = [];
+
+        // Lecture
+        video.addEventListener('play', function() {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'video_custom',
+                'video_action': 'start',
+                'video_title': videoName
+            });
+        }, false);
+
+        // Pause
+        video.addEventListener('pause', function() {
+            if (video.currentTime < video.duration - 1) {
+                window.dataLayer.push({
+                    'event': 'video_custom',
+                    'video_action': 'pause',
+                    'video_title': videoName
+                });
+            }
+        }, false);
+
+        // Progression
+        video.addEventListener('timeupdate', function() {
+            var percent = Math.floor((video.currentTime / video.duration) * 100);
+            percentages.forEach(function(p) {
+                if (percent >= p && alreadySent.indexOf(p) === -1) {
+                    alreadySent.push(p);
+                    window.dataLayer.push({
+                        'event': 'video_custom',
+                        'video_action': 'progress',
+                        'video_title': videoName,
+                        'video_percent': p
+                    });
+                }
+            });
+        }, false);
+
+        // Fin
+        video.addEventListener('ended', function() {
+            window.dataLayer.push({
+                'event': 'video_custom',
+                'video_action': 'complete',
+                'video_title': videoName
+            });
+        }, false);
+    }
+
+    // 4. Initialisation au chargement
     window.addEventListener('DOMContentLoaded', () => {
         switchLang('fr'); // Français par défaut
         initFAQ();        // Activation des clics FAQ
