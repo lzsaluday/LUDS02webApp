@@ -154,18 +154,19 @@
         </div>
     </section>
 
-    <section id="investors" class="investors">
-        <h2 data-lang="fr">Investissez dans l'avenir de la santé</h2>
-        <h2 data-lang="en">Invest in the future of healthcare</h2>
-        <div class="investor-box">
-            <p data-lang="fr">Rejoignez un marché technologique à fort impact. Accédez à nos données de croissance mondiales.</p>
-            <p data-lang="en">Join a high-impact tech market. Access our global growth data.</p>
-            <a href="Pitch.pdf" target="_blank" class="btn btn-outline" style="margin-top: 15px;">
-                <span data-lang="fr">Consulter le Pitch Deck (PDF)</span>
-                <span data-lang="en">View Pitch Deck (PDF)</span>
-            </a>
-        </div>
-    </section>
+<section id="investors" class="investors">
+    <h2 data-lang="fr">Investissez dans l'avenir de la santé</h2>
+    <h2 data-lang="en">Invest in the future of healthcare</h2>
+    <div class="investor-box">
+        <p data-lang="fr">Rejoignez un marché technologique à fort impact. Accédez à nos données de croissance mondiales.</p>
+        <p data-lang="en">Join a high-impact tech market. Access our global growth data.</p>
+        
+        <a id="pitch-link" href="Pitch.pdf" target="_blank" class="btn btn-outline" style="margin-top: 15px;">
+            <span data-lang="fr">Consulter le Pitch Deck (PDF)</span>
+            <span data-lang="en">View Pitch Deck (PDF)</span>
+        </a>
+    </div>
+</section>
 
     <section id="patients" class="patient-info">
         <div style="max-width: 800px; margin: 0 auto; text-align: center;">
@@ -379,6 +380,29 @@
             }, 600); // Temps légèrement augmenté pour une transition plus fluide
         });
     }
+
+    async function initGrowthBook() {
+    await gb.loadFeatures();
+
+    if (gb.isOn("pitch-deck-mode")) {
+        const pitchLink = document.getElementById("pitch-link");
+        
+        if (pitchLink) {
+            // 1. On change le lien vers la nouvelle page
+            pitchLink.setAttribute("href", "pitch-details.html");
+
+            // 2. On met à jour les textes internes pour les deux langues
+            const spanFr = pitchLink.querySelector('[data-lang="fr"]');
+            const spanEn = pitchLink.querySelector('[data-lang="en"]');
+
+            if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
+            if (spanEn) spanEn.innerText = "View Pitch Page";
+
+            // 3. Optionnel : On change l'icône ou le style si besoin
+            console.log("GrowthBook : Redirection vers la page Pitch activée.");
+        }
+    }
+}
 
 </script>
 </body>
