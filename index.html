@@ -381,28 +381,38 @@
         });
     }
 
-    async function initGrowthBook() {
+async function initGrowthBook() {
+    // On récupère l'instance générée par le Script Tag de GrowthBook
+    const gb = window._growthbook;
+    
+    if (!gb) {
+        console.error("GrowthBook n'est pas encore chargé");
+        return;
+    }
+
     await gb.loadFeatures();
 
     if (gb.isOn("pitch-deck-mode")) {
-        const pitchLink = document.getElementById("pitch-link");
-        
-        if (pitchLink) {
-            // 1. On change le lien vers la nouvelle page
-            pitchLink.setAttribute("href", "pitch-details.html");
+      const pitchLink = document.getElementById("pitch-link");
 
-            // 2. On met à jour les textes internes pour les deux langues
-            const spanFr = pitchLink.querySelector('[data-lang="fr"]');
-            const spanEn = pitchLink.querySelector('[data-lang="en"]');
+      if (pitchLink) {
+        // 1. Changement du lien
+        pitchLink.setAttribute("href", "pitch-details.html");
 
-            if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
-            if (spanEn) spanEn.innerText = "View Pitch Page";
+        // 2. Mise à jour des textes
+        const spanFr = pitchLink.querySelector('[data-lang="fr"]');
+        const spanEn = pitchLink.querySelector('[data-lang="en"]');
 
-            // 3. Optionnel : On change l'icône ou le style si besoin
-            console.log("GrowthBook : Redirection vers la page Pitch activée.");
-        }
+        if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
+        if (spanEn) spanEn.innerText = "View Pitch Page";
+
+        console.log("GrowthBook : Redirection vers la page Pitch activée.");
+      }
     }
-}
+  }
+
+  // Lancement de la fonction
+  initGrowthBook();
 
 </script>
 </body>
