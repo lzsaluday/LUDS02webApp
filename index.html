@@ -381,38 +381,50 @@
         });
     }
 
-async function initGrowthBook() {
-    // On récupère l'instance générée par le Script Tag de GrowthBook
+// On définit la fonction de modification
+async function applyGrowthBookChanges() {
     const gb = window._growthbook;
     
-    if (!gb) {
-        console.error("GrowthBook n'est pas encore chargé");
-        return;
+    if (gb) {
+        // Force le chargement des dernières règles
+        await gb.loadFeatures();
+
+        if (gb.isOn("pitch-deck-mode")) {
+            const pitchLink = document.getElementById("pitch-link");
+            if (pitchLink) {
+                pitchLink.setAttribute("href", "pitch-details.html");
+                const spanFr = pitchLink.querySelector('[data-lang="fr"]');
+                const spanEn = pitchLink.querySelector('[data-lang="en"]');
+
+                if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
+                if (spanEn) spanEn.innerText = "View Pitch Page";
+
+                console.log("✅ GrowthBook : Mode Pitch activé et appliqué.");
+            }
+        } else {
+            console.log("ℹ️ GrowthBook : pitch-deck-mode est à FALSE.");
+        }
     }
+}
 
-    await gb.loadFeatures();
-
-    if (gb.isOn("pitch-deck-mode")) {
-      const pitchLink = document.getElementById("pitch-link");
-
-      if (pitchLink) {
-        // 1. Changement du lien
-        pitchLink.setAttribute("href", "pitch-details.html");
-
-        // 2. Mise à jour des textes
-        const spanFr = pitchLink.querySelector('[data-lang="fr"]');
-        const spanEn = pitchLink.querySelector('[data-lang="en"]');
-
-        if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
-        if (spanEn) spanEn.innerText = "View Pitch Page";
-
-        console.log("GrowthBook : Redirection vers la page Pitch activée.");
-      }
-    }
-  }
-
-  // Lancement de la fonction
-  initGrowthBook();
+// On attend que le SDK GrowthBook soit prêt
+// L'attribut 'auto.min.js' initialise window._growthbook automatiquement
+if (window._growthbook) {
+    applyGrowthBookChanges();
+} else {
+    // Si pas encore là, on écoute l'événement de chargement du SDK
+    window.addEventListener('gbloaded', applyGrowthBookChanges);
+    
+    // Sécurité supplémentaire : on vérifie toutes les 200ms pendant 2 secondes
+    let checks = 0;
+    const checkGB = setInterval(() => {
+        if (window._growthbook) {
+            applyGrowthBookChanges();
+            clearInterval(checkGB);
+        }
+        if (checks++ > 10) clearInterval(checkGB);
+    }, 200);
+}
 
 </script>
 </body>
