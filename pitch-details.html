@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MédiCam — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Source+Serif+4:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --white:   #ffffff;
+    --bg:      #f6f8fa;
+    --bg2:     #eef2f6;
+    --navy:    #122b3b;
+    --navy2:   #1e3d52;
+    --teal:    #3d8b82;
+    --teal2:   #2f6e67;
+    --teal-l:  #e8f4f3;
+    --teal-l2: #d0ebe9;
+    --muted:   #6b8a9a;
+    --muted2:  #9bb3be;
+    --border:  #dde6ec;
+    --border2: #c8d8e0;
+    --shadow:  rgba(18,43,59,0.07);
+    --shadow2: rgba(18,43,59,0.13);
+    --r:       10px;
+    --r2:      16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--white);
+    color: var(--navy);
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,.96);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+  }
+  .nav-logo { font-size: 1.2rem; font-weight: 800; color: var(--teal); }
+  .nav-meta  { font-size: .75rem; color: var(--muted); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+
+  /* HERO */
+  .hero { padding: 72px 48px 56px; max-width: 840px; margin: 0 auto; }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--teal-l); color: var(--teal2);
+    font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 999px; border: 1px solid var(--teal-l2);
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 4.5vw, 3.1rem);
+    font-weight: 800; color: var(--navy);
+    line-height: 1.18; letter-spacing: -.025em; margin-bottom: 18px;
+  }
+  .hero h1 em { font-style: normal; color: var(--teal); }
+  .hero-sub {
+    font-size: 1rem; color: var(--muted);
+    max-width: 560px; margin-bottom: 30px; line-height: 1.75;
+  }
+  .hero-sub strong { color: var(--teal); font-weight: 700; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .badge { padding: 7px 18px; border-radius: 8px; font-size: .8rem; font-weight: 700; letter-spacing: .01em; }
+  .badge-primary { background: var(--teal); color: #fff; }
+  .badge-outline  { background: var(--white); color: var(--navy2); border: 1.5px solid var(--border2); }
+
+  /* LAYOUT */
+  .divider { height: 1px; background: var(--border); }
+  .section { padding: 52px 48px; max-width: 1160px; margin: 0 auto; }
+  .s-eye {
+    display: flex; align-items: center; gap: 10px;
+    font-size: .7rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .s-eye::before { content: ''; width: 18px; height: 2px; background: var(--teal); border-radius: 2px; }
+  .s-title { font-size: 1.5rem; font-weight: 800; color: var(--navy); letter-spacing: -.02em; margin-bottom: 28px; }
+
+  /* INNOV GRID */
+  .innov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 16px; }
+  .innov-card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--r2); padding: 24px 20px 26px;
+    position: relative; overflow: hidden;
+    transition: box-shadow .2s, transform .2s, border-color .2s;
+  }
+  .innov-card:hover { box-shadow: 0 8px 32px var(--shadow2); transform: translateY(-2px); border-color: var(--teal-l2); }
+  .innov-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px; border-radius: 0 0 var(--r2) var(--r2);
+  }
+  .v1::after { background: #e05252; }
+  .v2::after { background: var(--teal); }
+  .v3::after { background: #7b68c8; }
+  .v4::after { background: #3aaa6f; }
+
+  .innov-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: grid; place-items: center; font-size: 1.15rem; margin-bottom: 12px;
+  }
+  .v1 .innov-icon { background: #fdf0f0; }
+  .v2 .innov-icon { background: var(--teal-l); }
+  .v3 .innov-icon { background: #f0eeff; }
+  .v4 .innov-icon { background: #edf9f2; }
+
+  .innov-title { font-size: .88rem; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
+  .innov-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .innov-list li {
+    font-size: .78rem; color: var(--muted); font-weight: 500;
+    padding-left: 13px; position: relative; line-height: 1.5;
+  }
+  .innov-list li::before { content: '–'; position: absolute; left: 0; color: var(--muted2); }
+
+  /* KPI */
+  .kpi-strip { display: flex; flex-wrap: wrap; gap: 12px; }
+  .kpi-cell {
+    flex: 1; min-width: 140px;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--r2); padding: 20px 16px;
+    transition: box-shadow .2s, border-color .2s;
+  }
+  .kpi-cell:hover { box-shadow: 0 4px 20px var(--shadow); border-color: var(--teal-l2); }
+  .kpi-value { display: block; font-size: 1.85rem; font-weight: 800; color: var(--teal); letter-spacing: -.03em; line-height: 1; margin-bottom: 5px; }
+  .kpi-label { font-size: .73rem; color: var(--muted); font-weight: 500; line-height: 1.4; }
+
+  /* CHARTS */
+  .charts-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 18px; }
+  @media(max-width:900px){ .charts-row { grid-template-columns: 1fr; } }
+  .chart-card {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: var(--r2); padding: 22px;
+  }
+  .c-eye { font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); margin-bottom: 3px; }
+  .c-title { font-size: .92rem; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+  .c-sub { font-size: .73rem; color: var(--muted); margin-bottom: 16px; }
+  .revenue-wrap { position: relative; height: 175px; }
+  .donut-wrap { position: relative; max-width: 190px; margin: 0 auto; }
+  .legend-list { margin-top: 12px; display: flex; flex-direction: column; gap: 5px; }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-size: .71rem; color: var(--muted); font-weight: 500; }
+  .legend-pip { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ANALYSIS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media(max-width:760px){ .two-col { grid-template-columns: 1fr; } }
+  .analysis-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: 24px; }
+  .a-title { font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--teal); margin-bottom: 16px; }
+
+  /* SWOT */
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .swot-cell { background: var(--white); border: 1px solid var(--border); border-radius: var(--r); padding: 14px; }
+  .swot-head { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; }
+  .swot-pip { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .swot-lbl { font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+  .sf .swot-pip { background: #3aaa6f; } .sf .swot-lbl { color: #2d8a58; }
+  .sw .swot-pip { background: #e09030; } .sw .swot-lbl { color: #b87520; }
+  .so .swot-pip { background: var(--teal); } .so .swot-lbl { color: var(--teal2); }
+  .sm .swot-pip { background: #e05252; } .sm .swot-lbl { color: #c03838; }
+  .swot-items { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .swot-items li { font-size: .75rem; color: var(--muted); font-weight: 500; padding-left: 11px; position: relative; }
+  .swot-items li::before { content: '·'; position: absolute; left: 1px; font-size: 1rem; line-height: 1.2; }
+
+  /* PESTEL */
+  .pestel-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; }
+  @media(max-width:500px){ .pestel-grid { grid-template-columns: repeat(2,1fr); } }
+  .pestel-cell {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: var(--r); padding: 13px 10px; text-align: center;
+    transition: background .15s, border-color .15s;
+  }
+  .pestel-cell:hover { background: var(--teal-l); border-color: var(--teal-l2); }
+  .p-emoji { font-size: 1.15rem; display: block; margin-bottom: 3px; }
+  .p-letter { font-size: 1rem; font-weight: 800; color: var(--teal); }
+  .p-name { font-size: .63rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: block; margin: 2px 0 5px; }
+  .p-desc { font-size: .7rem; color: var(--muted); line-height: 1.4; }
+
+  /* MINDMAP */
+  .mindmap-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: 24px; overflow: hidden; }
+  .mindmap-svg { width: 100%; height: 250px; display: block; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 26px 48px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  }
+  .f-logo { font-size: 1rem; font-weight: 800; color: var(--teal); }
+  .f-team { font-size: .77rem; color: var(--muted); }
+  .f-copy { font-size: .7rem; color: var(--muted2); }
+
+  /* ANIM */
+  @keyframes up { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+  .anim { opacity:0; animation: up .5s ease forwards; }
+  .d1{animation-delay:.05s} .d2{animation-delay:.12s} .d3{animation-delay:.2s} .d4{animation-delay:.28s}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">MédiCam</span>
+  <span class="nav-meta">Pitch Deck · 2026</span>
+</nav>
+
+<!-- HERO -->
+<div class="hero anim d1">
+  <div class="hero-tag">📷 Caméra Médicale Connectée</div>
+  <h1>Analyse de la communication<br/><em>verbale &amp; non-verbale</em></h1>
+  <p class="hero-sub">
+    Une caméra IA portable qui détecte les micro-expressions et signaux vocaux pour renforcer
+    <strong>l'empathie médicale</strong>, réduire les erreurs de diagnostic et améliorer la satisfaction patient.
+  </p>
+  <div class="badge-row">
+    <span class="badge badge-primary">🎯 Premier sur Marché</span>
+    <span class="badge badge-outline">🤖 IA Propriétaire</span>
+    <span class="badge badge-outline">💊 Impact Clinique</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- INNOVATION -->
+<div class="section anim d2">
+  <div class="s-eye">Innovation &amp; Différenciation</div>
+  <div class="s-title">Quatre piliers qui nous distinguent</div>
+  <div class="innov-grid">
+    <div class="innov-card v1">
+      <div class="innov-icon">🎯</div>
+      <div class="innov-title">Premier sur le Marché</div>
+      <ul class="innov-list">
+        <li>Seule caméra analysant les micro-expressions en contexte clinique</li>
+        <li>IA contextualisée sur données médicales réelles</li>
+        <li>Portable &amp; non-intrusive — clip sur blouse</li>
+      </ul>
+    </div>
+    <div class="innov-card v2">
+      <div class="innov-icon">⚙️</div>
+      <div class="innov-title">Tech Propriétaire</div>
+      <ul class="innov-list">
+        <li>Modèles IA fusion audio-vidéo temps réel</li>
+        <li>Détection micro-expressions bas-latence</li>
+        <li>Architecture embarquée autonome 24h</li>
+      </ul>
+    </div>
+    <div class="innov-card v3">
+      <div class="innov-icon">💊</div>
+      <div class="innov-title">Impact Clinique</div>
+      <ul class="innov-list">
+        <li>Augmente l'empathie médicale mesurée</li>
+        <li>Réduit les erreurs de diagnostic</li>
+        <li>Améliore la satisfaction et fidélité patient</li>
+      </ul>
+    </div>
+    <div class="innov-card v4">
+      <div class="innov-icon">🚀</div>
+      <div class="innov-title">Potentiel de Marché</div>
+      <ul class="innov-list">
+        <li>Santé digitale en croissance de +15%/an</li>
+        <li>Revenus additionnels via données anonymisées</li>
+        <li>Expansion B2B cabinets, hôpitaux, mutuelles</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- KPI -->
+<div class="section anim d2">
+  <div class="s-eye">Indicateurs Clés</div>
+  <div class="s-title">Des chiffres qui parlent</div>
+  <div class="kpi-strip">
+    <div class="kpi-cell"><span class="kpi-value">+15%</span><span class="kpi-label">Croissance du marché santé digitale / an</span></div>
+    <div class="kpi-cell"><span class="kpi-value">−25%</span><span class="kpi-label">Réduction erreurs de diagnostic (proj.)</span></div>
+    <div class="kpi-cell"><span class="kpi-value">90%</span><span class="kpi-label">Patients ouverts ou favorables</span></div>
+    <div class="kpi-cell"><span class="kpi-value">80%</span><span class="kpi-label">Médecins favorables ou hésitants seulement</span></div>
+    <div class="kpi-cell"><span class="kpi-value">2M€</span><span class="kpi-label">CA projeté à l'an 5</span></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CHARTS -->
+<div class="section anim d3">
+  <div class="s-eye">Données &amp; Sondages</div>
+  <div class="s-title">Validation marché &amp; projection financière</div>
+  <div class="charts-row">
+
+    <div class="chart-card">
+      <div class="c-eye">Financier</div>
+      <div class="c-title">Évolution du chiffre d'affaires</div>
+      <div class="c-sub">Projection sur 5 ans (k€)</div>
+      <div class="revenue-wrap"><canvas id="revenueChart"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="c-eye">Sondage · 50 patients</div>
+      <div class="c-title">Accepteriez-vous MédiCam ?</div>
+      <div class="c-sub">Panel représentatif de patients</div>
+      <div class="donut-wrap"><canvas id="patientChart"></canvas></div>
+      <div class="legend-list">
+        <div class="legend-item"><span class="legend-pip" style="background:#e05252"></span>Jamais (22)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#7b68c8"></span>Pathologie grave (15)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#3d8b82"></span>Si refus possible (18)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#3aaa6f"></span>Sans condition (45)</div>
+      </div>
+    </div>
+
+    <div class="chart-card">
+      <div class="c-eye">Sondage · 10 médecins</div>
+      <div class="c-title">Prêts à intégrer MédiCam ?</div>
+      <div class="c-sub">Panel de praticiens consultés</div>
+      <div class="donut-wrap"><canvas id="medecinChart"></canvas></div>
+      <div class="legend-list">
+        <div class="legend-item"><span class="legend-pip" style="background:#3aaa6f"></span>Favorable (50%)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#7b68c8"></span>Hésitant (30%)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#e05252"></span>Opposé (10%)</div>
+        <div class="legend-item"><span class="legend-pip" style="background:#3d8b82"></span>Sans avis (10%)</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SWOT + PESTEL -->
+<div class="section anim d3">
+  <div class="s-eye">Analyse Stratégique</div>
+  <div class="s-title">SWOT &amp; PESTEL</div>
+  <div class="two-col">
+    <div class="analysis-card">
+      <div class="a-title">🔍 Analyse SWOT</div>
+      <div class="swot-grid">
+        <div class="swot-cell sf">
+          <div class="swot-head"><span class="swot-pip"></span><span class="swot-lbl">Forces</span></div>
+          <ul class="swot-items"><li>Empathie &amp; qualité des soins</li><li>Matériel éprouvé sur le terrain</li></ul>
+        </div>
+        <div class="swot-cell sw">
+          <div class="swot-head"><span class="swot-pip"></span><span class="swot-lbl">Faiblesses</span></div>
+          <ul class="swot-items"><li>Consentement patient à gérer</li><li>Adoption médicale incertaine</li></ul>
+        </div>
+        <div class="swot-cell so">
+          <div class="swot-head"><span class="swot-pip"></span><span class="swot-lbl">Opportunités</span></div>
+          <ul class="swot-items"><li>Base de données commercialisable</li><li>Expansion internationale services</li></ul>
+        </div>
+        <div class="swot-cell sm">
+          <div class="swot-head"><span class="swot-pip"></span><span class="swot-lbl">Menaces</span></div>
+          <ul class="swot-items"><li>Sécurité et fuite de données</li><li>Évolution du cadre RGPD+</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis-card">
+      <div class="a-title">🌐 Analyse PESTEL</div>
+      <div class="pestel-grid">
+        <div class="pestel-cell"><span class="p-emoji">🏛️</span><span class="p-letter">P</span><span class="p-name">Politique</span><span class="p-desc">Santé publique &amp; réglementation</span></div>
+        <div class="pestel-cell"><span class="p-emoji">💰</span><span class="p-letter">E</span><span class="p-name">Économie</span><span class="p-desc">Coûts acquisition, remboursement soins</span></div>
+        <div class="pestel-cell"><span class="p-emoji">👥</span><span class="p-letter">S</span><span class="p-name">Social</span><span class="p-desc">Acceptation patients &amp; soignants</span></div>
+        <div class="pestel-cell"><span class="p-emoji">🤖</span><span class="p-letter">T</span><span class="p-name">Technologie</span><span class="p-desc">Fiabilité IA, infrastructure données</span></div>
+        <div class="pestel-cell"><span class="p-emoji">🌍</span><span class="p-letter">E</span><span class="p-name">Environnement</span><span class="p-desc">Cycle vie équipements, énergie</span></div>
+        <div class="pestel-cell"><span class="p-emoji">⚖️</span><span class="p-letter">L</span><span class="p-name">Légal</span><span class="p-desc">RGPD, droit à l'image, responsabilité</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- MINDMAP -->
+<div class="section anim d4">
+  <div class="s-eye">Carte Mentale</div>
+  <div class="s-title">Vue d'ensemble du projet</div>
+  <div class="mindmap-card">
+    <svg class="mindmap-svg" viewBox="0 0 960 250" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+          <circle cx="3" cy="3" r="2" fill="#3d8b82" opacity=".5"/>
+        </marker>
+      </defs>
+      <!-- Central -->
+      <rect x="380" y="95" width="200" height="58" rx="12" fill="white" stroke="#3d8b82" stroke-width="2"/>
+      <text x="480" y="119" text-anchor="middle" fill="#122b3b" font-family="Nunito,sans-serif" font-size="13" font-weight="800">MédiCam</text>
+      <text x="480" y="140" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="10">Caméra IA clinique portable</text>
+      <!-- Left -->
+      <line x1="380" y1="124" x2="252" y2="66"  stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="380" y1="124" x2="252" y2="124" stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="380" y1="124" x2="252" y2="188" stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="112" y="40"  width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="182" y="61"  text-anchor="middle" fill="#2d8a58" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Innovation</text>
+      <text x="182" y="75"  text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Micro-expressions, IA A/V</text>
+      <text x="182" y="87"  text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Bas-latence, embarqué</text>
+      <rect x="112" y="98"  width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="182" y="120" text-anchor="middle" fill="#c03838" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Difficultés</text>
+      <text x="182" y="135" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">RGPD / Éthique données</text>
+      <text x="182" y="147" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Adoption praticiens</text>
+      <rect x="112" y="162" width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="182" y="183" text-anchor="middle" fill="#7b68c8" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Prochaines étapes</text>
+      <text x="182" y="198" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Prototype v1</text>
+      <text x="182" y="210" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Partenariat clinique pilote</text>
+      <!-- Right -->
+      <line x1="580" y1="124" x2="708" y2="66"  stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="580" y1="124" x2="708" y2="124" stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="580" y1="124" x2="708" y2="188" stroke="#dde6ec" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="708" y="40"  width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="778" y="61"  text-anchor="middle" fill="#3d8b82" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Financier</text>
+      <text x="778" y="75"  text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">CA projeté 2M€ an 5</text>
+      <text x="778" y="87"  text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">ROI atteint à l'an 4</text>
+      <rect x="708" y="98"  width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="778" y="120" text-anchor="middle" fill="#b87520" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Succès clinique</text>
+      <text x="778" y="135" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">−25% erreurs diagnostic</text>
+      <text x="778" y="147" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">+Satisfaction patient</text>
+      <rect x="708" y="162" width="140" height="52" rx="8" fill="#f6f8fa" stroke="#dde6ec"/>
+      <text x="778" y="183" text-anchor="middle" fill="#2d8a58" font-family="Nunito,sans-serif" font-size="10" font-weight="800">Structure produit</text>
+      <text x="778" y="198" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">Plug &amp; Play, 24h autonomie</text>
+      <text x="778" y="210" text-anchor="middle" fill="#6b8a9a" font-family="Nunito,sans-serif" font-size="9">API mobile sécurisée</text>
+    </svg>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<footer>
+  <span class="f-logo">MédiCam</span>
+  <span class="f-team">Grattesac Florian &nbsp;·&nbsp; Guénot Julien &nbsp;·&nbsp; Zsaluday Léopold</span>
+  <span class="f-copy">© 2026 MédiCam Global Health</span>
+</footer>
+
+<script>
+Chart.defaults.color = '#6b8a9a';
+Chart.defaults.font.family = "'Nunito', sans-serif";
+const TEAL='#3d8b82', GREEN='#3aaa6f', RED='#e05252', PURPLE='#7b68c8', GRID='rgba(18,43,59,0.06)';
+
+new Chart(document.getElementById('revenueChart'), {
+  type: 'line',
+  data: {
+    labels: ['An 1','An 2','An 3','An 4','An 5'],
+    datasets: [{
+      data: [-900,-300,200,800,2000],
+      borderColor: TEAL,
+      backgroundColor: 'rgba(61,139,130,0.08)',
+      fill: true, tension: 0.42,
+      pointBackgroundColor: TEAL, pointBorderColor:'#f6f8fa',
+      pointBorderWidth: 2, pointRadius: 5, borderWidth: 2.5,
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:false } },
+    scales:{
+      x:{ grid:{color:GRID}, ticks:{font:{size:11,weight:'600'}} },
+      y:{ grid:{color:GRID}, ticks:{font:{size:10}, callback: v=>(v>=0?'+':'')+v+'k'} }
+    }
+  }
+});
+
+new Chart(document.getElementById('patientChart'), {
+  type:'doughnut',
+  data:{
+    labels:['Jamais','Pathologie grave','Refus possible','Sans condition'],
+    datasets:[{ data:[22,15,18,45], backgroundColor:[RED,PURPLE,TEAL,GREEN], borderColor:'#f6f8fa', borderWidth:3, hoverOffset:6 }]
+  },
+  options:{ responsive:true, cutout:'68%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.label+' : '+c.raw}} } }
+});
+
+new Chart(document.getElementById('medecinChart'), {
+  type:'doughnut',
+  data:{
+    labels:['Favorable','Hésitant','Opposé','Sans avis'],
+    datasets:[{ data:[50,30,10,10], backgroundColor:[GREEN,PURPLE,RED,TEAL], borderColor:'#f6f8fa', borderWidth:3, hoverOffset:6 }]
+  },
+  options:{ responsive:true, cutout:'68%', plugins:{ legend:{display:false}, tooltip:{callbacks:{label:c=>' '+c.label+' : '+c.raw+'%'}} } }
+});
+</script>
+</body>
+</html>
