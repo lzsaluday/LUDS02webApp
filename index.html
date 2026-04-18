@@ -8,9 +8,92 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-W78GKJ9W');</script>
     <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MédiCam | L'Intelligence Émotionnelle au Service du Soin</title>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  EXPERIMENT : experiment-download-pdf-color                  ║
+    ║  Pour TESTER, ajoute ?variation=0 ou ?variation=1 à l'URL   ║
+    ║    ?variation=0  →  control      (navy  #2C3E50)             ║
+    ║    ?variation=1  →  teal-version (teal  #3d8b82)             ║
+    ╚══════════════════════════════════════════════════════════════╝
+
+    Ce script est intentionnellement INLINE et en tête de page
+    pour appliquer la couleur AVANT le rendu — pas de flash.
+    -->
+    <script>
+    (function () {
+        var EXP_KEY = 'experiment-download-pdf-color';
+
+        /* ── 1. Variantes ─────────────────────────────────── */
+        var VARIANTS = {
+            0: { name: 'control',      color: '#2C3E50' },
+            1: { name: 'teal-version', color: '#3d8b82' }
+        };
+
+        /* ── 2. Override URL  (?variation=0 ou ?variation=1) ─
+           Priorité absolue — utile pour les tests et les démos  */
+        function getUrlOverride() {
+            var match = location.search.match(/[?&]variation=([01])/);
+            return match ? parseInt(match[1], 10) : null;
+        }
+
+        /* ── 3. Persistance cookie (30 jours) ──────────────── */
+        function readCookie(name) {
+            var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
+            return m ? decodeURIComponent(m[1]) : null;
+        }
+        function writeCookie(name, value, days) {
+            var exp = new Date(Date.now() + days * 864e5).toUTCString();
+            document.cookie = name + '=' + encodeURIComponent(value)
+                + '; expires=' + exp + '; path=/; SameSite=Lax';
+        }
+
+        /* ── 4. Assignation déterministe (FNV-32a) ──────────
+           Même algo que GrowthBook pour la cohérence           */
+        function getUserId() {
+            var uid = readCookie('gb_uid');
+            if (!uid) {
+                uid = 'u' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                writeCookie('gb_uid', uid, 30);
+            }
+            return uid;
+        }
+        function assignVariation(uid) {
+            var str  = EXP_KEY + '__' + uid;
+            var hash = 2166136261;
+            for (var i = 0; i < str.length; i++) {
+                hash ^= str.charCodeAt(i);
+                hash  = (hash * 16777619) >>> 0;
+            }
+            return (hash % 1000) < 500 ? 0 : 1; /* 50 / 50 */
+        }
+
+        /* ── 5. Résolution de la variante ──────────────────── */
+        var override    = getUrlOverride();
+        var uid         = getUserId();
+        var varIdx      = override !== null ? override : assignVariation(uid);
+
+        /* Si override URL → on écrase le cookie pour garder la cohérence
+           sur toute la session de test                              */
+        if (override !== null) writeCookie('gb_uid', uid + '_ov' + override, 1);
+
+        var variant = VARIANTS[varIdx];
+
+        /* ── 6. Injection CSS immédiate (avant rendu) ──────── */
+        var style = document.createElement('style');
+        style.textContent =
+            '#investors { background-color: ' + variant.color + ' !important; }';
+        document.head.appendChild(style);
+
+        /* ── 7. Expose pour le reste du script ─────────────── */
+        window.__exp = { key: EXP_KEY, varIdx: varIdx, variant: variant, uid: uid };
+    })();
+    </script>
+
     <style>
         :root {
             --primary: #528B8B;
@@ -23,18 +106,13 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
         body { background-color: var(--light-bg); color: var(--text); line-height: 1.6; scroll-behavior: smooth; }
-
         [data-lang="en"] { display: none; }
 
         nav {
             background: rgba(255,255,255,0.98);
             padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .nav-right { display: flex; gap: 15px; align-items: center; }
@@ -44,44 +122,23 @@
         .hero { padding: 140px 10% 60px; display: flex; align-items: center; gap: 40px; background: white; }
         .hero-text { flex: 1.2; }
         .hero-text h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 20px; color: var(--accent); }
-        .hero-text p { font-size: 1.1rem; margin-bottom: 25px; max-width: 500px; }
+        .hero-text p  { font-size: 1.1rem; margin-bottom: 25px; max-width: 500px; }
         .video-container { flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1); background: #000; aspect-ratio: 16/9; }
 
-        .features { padding: 60px 10%; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 25px; }
+        .features { padding: 60px 10%; display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 25px; }
         .feature-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--primary); }
         .feature-card h3 { margin-bottom: 12px; color: var(--primary); font-size: 1.3rem; }
 
-        /* ─── BANDEAU INVESTISSEURS ──────────────────────────
-           Couleur par défaut = navy (control).
-           GrowthBook injecte la classe .teal-version sur <section>
-           si le visiteur est dans la variante teal.
-        ─────────────────────────────────────────────────── */
-        #investors {
-            background-color: #2C3E50;       /* control : navy */
-            color: white;
-            padding: 70px 10%;
-            text-align: center;
-            transition: background-color 0.35s ease;
-        }
-        #investors.teal-version {
-            background-color: #3d8b82;       /* variant : teal */
-        }
-
-        .investor-box {
-            max-width: 700px;
-            margin: 30px auto;
-            padding: 35px;
-            border-radius: 15px;
-            background: rgba(255,255,255,0.08);
-        }
+        #investors { color: white; padding: 70px 10%; text-align: center; transition: background-color 0s; }
+        .investor-box { max-width: 700px; margin: 30px auto; padding: 35px; border-radius: 15px; background: rgba(255,255,255,0.08); }
 
         .btn { padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; transition: 0.2s; cursor: pointer; border: none; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-outline  { border: 2px solid #fff; color: #fff; }
+        .btn-outline  { border: 2px solid white; color: white; }
         .btn-patient  { border: 1px solid var(--primary); color: var(--primary); font-size: 0.85rem; }
 
         .patient-info { background-color: var(--patient-soft); padding: 70px 10%; }
-        .patient-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 30px; margin-top: 30px; }
+        .patient-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 30px; margin-top: 30px; }
         .patient-item h4 { color: var(--accent); margin-bottom: 8px; }
 
         .cta-section { padding: 80px 10%; text-align: center; }
@@ -98,12 +155,12 @@
 
         footer { padding: 40px; background: #1a1a1a; color: #bbb; text-align: center; font-size: 0.85rem; }
 
-        /* Debug badge — supprime en prod */
+        /* ── Badge debug ── retire en production ────────────── */
         #exp-badge {
             position: fixed; bottom: 14px; right: 14px;
-            padding: 5px 13px; border-radius: 999px;
+            padding: 6px 14px; border-radius: 999px;
             font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
-            z-index: 9999; display: none; pointer-events: none;
+            z-index: 9999; cursor: default; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
         #exp-badge.control      { background: #2C3E50; color: #fff; }
         #exp-badge.teal-version { background: #3d8b82; color: #fff; }
@@ -115,27 +172,17 @@
         }
     </style>
 
-    <!--
-    ┌─────────────────────────────────────────────────────────────────┐
-    │  GrowthBook — SDK auto-bundle                                   │
-    │  Experiment key : experiment-download-pdf-color                 │
-    │  Variation 0    : control      → bandeau navy  #2C3E50          │
-    │  Variation 1    : teal-version → bandeau teal  #3d8b82          │
-    └─────────────────────────────────────────────────────────────────┘
-    -->
-    <script
-        async
+    <script async
         data-api-host="https://cdn.growthbook.io"
         data-client-key="sdk-j7mH3tqsj6SxJoM"
         src="https://cdn.jsdelivr.net/npm/@growthbook/growthbook/dist/bundles/auto.min.js">
     </script>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W78GKJ9W"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- Debug badge (retire en prod) -->
+    <!-- Badge debug — retire en production -->
     <div id="exp-badge"></div>
 
     <nav>
@@ -244,8 +291,8 @@
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p data-lang="fr">MédiCam ne stocke aucune donnée audio ou vidéo. L'analyse se fait en flux tendu et les données sont cryptées de bout en bout conformément aux normes de santé strictes.</p>
-                    <p data-lang="en">MédiCam does not store any audio or video data. Analysis is performed in real-time and data is encrypted end-to-end in accordance with strict health standards.</p>
+                    <p data-lang="fr">MédiCam ne stocke aucune donnée audio ou vidéo. L'analyse se fait en flux tendu et les données sont cryptées de bout en bout.</p>
+                    <p data-lang="en">MédiCam does not store any audio or video data. Analysis is performed in real-time and data is encrypted end-to-end.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -255,8 +302,8 @@
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p data-lang="fr">MédiCam est un assistant de communication, pas un outil de diagnostic autonome. Il fournit des indicateurs pour aider le praticien à affiner son propre jugement clinique.</p>
-                    <p data-lang="en">MédiCam is a communication assistant, not a standalone diagnostic tool. It provides indicators to help the practitioner refine their own clinical judgment.</p>
+                    <p data-lang="fr">MédiCam est un assistant de communication, pas un outil de diagnostic autonome.</p>
+                    <p data-lang="en">MédiCam is a communication assistant, not a standalone diagnostic tool.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -266,8 +313,8 @@
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p data-lang="fr">Nous proposons plusieurs formules adaptées à votre structure. Contactez-nous via le formulaire de pré-inscription pour recevoir notre grille tarifaire détaillée.</p>
-                    <p data-lang="en">We offer several packages adapted to your structure. Contact us via the pre-registration form to receive our detailed price list.</p>
+                    <p data-lang="fr">Nous proposons plusieurs formules adaptées à votre structure. Contactez-nous via le formulaire.</p>
+                    <p data-lang="en">We offer several packages. Contact us via the pre-registration form.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -277,8 +324,8 @@
                     <span class="faq-toggle">+</span>
                 </div>
                 <div class="faq-answer">
-                    <p data-lang="fr">Oui, MédiCam s'interface via une application mobile dédiée ou via une API sécurisée compatible avec la majorité des solutions de gestion actuelles.</p>
-                    <p data-lang="en">Yes, MédiCam interfaces via a dedicated mobile application or via a secure API compatible with most current management solutions.</p>
+                    <p data-lang="fr">Oui, MédiCam s'interface via une application mobile ou une API sécurisée.</p>
+                    <p data-lang="en">Yes, MédiCam interfaces via a dedicated mobile application or a secure API.</p>
                 </div>
             </div>
         </div>
@@ -289,7 +336,7 @@
         <h2 data-lang="en">Adopt MédiCam today</h2>
         <div class="form-container">
             <form id="launchForm">
-                <input type="text" placeholder="Name" required>
+                <input type="text"  placeholder="Name"  required>
                 <input type="email" placeholder="Email" required>
                 <button type="submit" class="btn btn-primary" style="width:100%;">
                     <span data-lang="fr">Envoyer</span>
@@ -310,192 +357,85 @@
     </footer>
 
 <script>
-/* ================================================================
-   GROWTHBOOK — experiment-download-pdf-color
-   ─────────────────────────────────────────────────────────────────
-   Variation 0 : "control"      → bandeau navy   #2C3E50
-   Variation 1 : "teal-version" → bandeau teal   #3d8b82
+window.dataLayer = window.dataLayer || [];
 
-   Mécanisme :
-   1. On attend que le SDK auto-bundle soit prêt (event 'gbloaded')
-   2. On appelle gb.run() avec la clé de l'experiment GrowthBook
-   3. On applique la variante au DOM (classe CSS sur #investors)
-   4. On remonte l'exposition dans le dataLayer → GTM → GA4
-   ================================================================ */
+/* ── Badge debug + tracking au chargement ──────────────── */
+window.addEventListener('DOMContentLoaded', function () {
+    var exp     = window.__exp;
+    var badge   = document.getElementById('exp-badge');
 
-    /* ── Persistance userId (cookie 30 j) ───────────────────── */
-    function getOrCreateUserId() {
-        var KEY = 'gb_uid';
-        var uid = document.cookie.split('; ').reduce(function(v, c) {
-            var p = c.split('=');
-            return p[0] === KEY ? decodeURIComponent(p[1]) : v;
-        }, '');
-        if (!uid) {
-            uid = 'u_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
-            var expires = new Date(Date.now() + 30 * 864e5).toUTCString();
-            document.cookie = KEY + '=' + uid + '; expires=' + expires + '; path=/; SameSite=Lax';
-        }
-        return uid;
+    /* Badge */
+    if (badge) {
+        badge.textContent  = '🧪 ' + exp.variant.name + (location.search.includes('variation=') ? ' (forcé)' : '');
+        badge.className    = exp.variant.name;
     }
 
-    /* ── Variantes ──────────────────────────────────────────── */
-    var VARIATIONS = {
-        'control':      { cssClass: 'control',      label: 'Navy (control)' },
-        'teal-version': { cssClass: 'teal-version', label: 'Teal (variant)' }
-    };
-
-    /* ── Application DOM ────────────────────────────────────── */
-    function applyVariation(variationValue) {
-        var section = document.getElementById('investors');
-        if (!section) return;
-
-        /* Retire toutes les classes de variante */
-        Object.values(VARIATIONS).forEach(function(v) {
-            section.classList.remove(v.cssClass);
-        });
-
-        /* Applique la bonne classe */
-        var variant = VARIATIONS[variationValue];
-        if (variant) {
-            section.classList.add(variant.cssClass);
-        }
-
-        /* Badge debug ── retire <div id="exp-badge"> en production */
-        var badge = document.getElementById('exp-badge');
-        if (badge && variant) {
-            badge.textContent = '🧪 ' + variant.label;
-            badge.className   = variant.cssClass;
-            badge.style.display = 'block';
-        }
-    }
-
-    /* ── Tracking → dataLayer ───────────────────────────────── */
-    function pushExperimentEvent(variationValue, variationIndex) {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-            event:            'experiment_viewed',       /* trigger GTM */
-            experiment_id:    'experiment-download-pdf-color',
-            variation_id:     variationIndex,            /* 0 | 1       */
-            variation_name:   variationValue,            /* 'control' | 'teal-version' */
-            user_id:          getOrCreateUserId()
-        });
-    }
-
-    /* ── Tracking conversion : clic Pitch PDF ───────────────── */
-    function initPitchLinkTracking(variationValue, variationIndex) {
-        var link = document.getElementById('pitch-link');
-        if (!link) return;
-        link.addEventListener('click', function() {
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                event:          'pitch_link_click',      /* métrique primaire */
-                experiment_id:  'experiment-download-pdf-color',
-                variation_id:   variationIndex,
-                variation_name: variationValue
-            });
-        });
-    }
-
-    /* ── Runner GrowthBook ──────────────────────────────────── */
-    function runGrowthBookExperiment(gb) {
-        /* Injecte l'userId dans les attributs du SDK */
-        gb.setAttributes({ id: getOrCreateUserId() });
-
-        /*
-         * gb.run() exécute l'experiment côté client en utilisant
-         * exactement la même clé que dans le dashboard GrowthBook.
-         * Le SDK récupère les règles de targeting et les poids depuis
-         * l'API GrowthBook (cdn.growthbook.io) grâce au client-key.
-         */
-        var result = gb.run({
-            key:        'experiment-download-pdf-color',    /* ← clé dashboard */
-            variations: ['control', 'teal-version'],        /* ← index 0 / 1  */
-
-            /* Callback appelé à chaque assignation (y compris rechargement) */
-            trackingCallback: function(experiment, result) {
-                pushExperimentEvent(result.value, result.variationId);
-                initPitchLinkTracking(result.value, result.variationId);
-                console.log(
-                    '[GrowthBook]', experiment.key,
-                    '→', result.value,
-                    '(variation', result.variationId + ')',
-                    '| inExperiment:', result.inExperiment
-                );
-            }
-        });
-
-        /* Application immédiate au DOM */
-        applyVariation(result.value);
-    }
-
-    /* ════════════════════════════════════════════════════════
-       Initialisation — attend que le SDK auto-bundle soit prêt
-    ════════════════════════════════════════════════════════ */
-    if (window._growthbook) {
-        /* SDK déjà chargé (rare mais possible) */
-        runGrowthBookExperiment(window._growthbook);
-    } else {
-        window.addEventListener('gbloaded', function() {
-            runGrowthBookExperiment(window._growthbook);
-        });
-    }
-
-    /* ════════════════════════════════════════════════════════
-       Reste du code (inchangé)
-    ════════════════════════════════════════════════════════ */
-
-    function switchLang(lang) {
-        document.querySelectorAll('[data-lang]').forEach(function(el) {
-            var inline = ['SPAN','A','STRONG'].includes(el.tagName);
-            el.style.display = el.getAttribute('data-lang') === lang
-                ? (inline ? 'inline' : 'block') : 'none';
-        });
-        document.documentElement.lang = lang;
-    }
-
-    function initFAQ() {
-        document.querySelectorAll('.faq-item').forEach(function(item) {
-            item.onclick = null;
-            item.addEventListener('click', function() { this.classList.toggle('active'); });
-        });
-    }
-
-    function initVideoTracking() {
-        var video = document.querySelector('video');
-        if (!video) return;
-        var name = (video.querySelector('source') || {}).src || 'medicam_video';
-        name = name.split('/').pop();
-        var sent = [];
-        video.addEventListener('play',  function() { window.dataLayer.push({ event:'video_custom', video_action:'start',    video_title:name }); });
-        video.addEventListener('pause', function() { if (video.currentTime < video.duration-1) window.dataLayer.push({ event:'video_custom', video_action:'pause', video_title:name }); });
-        video.addEventListener('timeupdate', function() {
-            var p = Math.floor((video.currentTime/video.duration)*100);
-            [25,50,75,90].forEach(function(t){ if(p>=t && !sent.includes(t)){ sent.push(t); window.dataLayer.push({event:'video_custom',video_action:'progress',video_title:name,video_percent:t}); }});
-        });
-        video.addEventListener('ended', function() { window.dataLayer.push({ event:'video_custom', video_action:'complete', video_title:name }); });
-    }
-
-    window.addEventListener('DOMContentLoaded', function() {
-        switchLang('fr');
-        initFAQ();
-        initVideoTracking();
-        window.dataLayer = window.dataLayer || [];
-
-        var form = document.getElementById('launchForm');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                window.dataLayer.push({ event:'form_submit', experiment_id:'experiment-download-pdf-color' });
-                this.style.opacity = '0.5';
-                this.style.pointerEvents = 'none';
-                setTimeout(function() {
-                    form.style.display = 'none';
-                    var msg = document.getElementById('successMsg');
-                    if (msg) msg.style.display = 'block';
-                }, 600);
-            });
-        }
+    /* Tracking : exposition experiment → GTM */
+    window.dataLayer.push({
+        event:          'experiment_viewed',
+        experiment_id:  exp.key,
+        variation_id:   exp.varIdx,
+        variation_name: exp.variant.name,
+        user_id:        exp.uid
     });
+
+    /* Tracking : clic Pitch PDF (conversion primaire) */
+    var pitchLink = document.getElementById('pitch-link');
+    if (pitchLink) {
+        pitchLink.addEventListener('click', function () {
+            window.dataLayer.push({
+                event:          'pitch_link_click',
+                experiment_id:  exp.key,
+                variation_id:   exp.varIdx,
+                variation_name: exp.variant.name
+            });
+        });
+    }
+
+    /* Formulaire */
+    var form = document.getElementById('launchForm');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            window.dataLayer.push({ event: 'form_submit', experiment_id: exp.key });
+            this.style.opacity = '0.5';
+            this.style.pointerEvents = 'none';
+            setTimeout(function () {
+                form.style.display = 'none';
+                var msg = document.getElementById('successMsg');
+                if (msg) msg.style.display = 'block';
+            }, 600);
+        });
+    }
+
+    /* Langue + FAQ */
+    switchLang('fr');
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+        item.addEventListener('click', function () { this.classList.toggle('active'); });
+    });
+
+    /* Video tracking */
+    var video = document.querySelector('video');
+    if (video) {
+        var vName = ((video.querySelector('source') || {}).src || 'medicam').split('/').pop();
+        var sent  = [];
+        video.addEventListener('play',  function () { window.dataLayer.push({ event:'video_custom', video_action:'start',    video_title:vName }); });
+        video.addEventListener('pause', function () { if (video.currentTime < video.duration-1) window.dataLayer.push({ event:'video_custom', video_action:'pause', video_title:vName }); });
+        video.addEventListener('timeupdate', function () {
+            var p = Math.floor((video.currentTime/video.duration)*100);
+            [25,50,75,90].forEach(function(t){ if(p>=t && !sent.includes(t)){ sent.push(t); window.dataLayer.push({event:'video_custom',video_action:'progress',video_title:vName,video_percent:t}); }});
+        });
+        video.addEventListener('ended', function () { window.dataLayer.push({ event:'video_custom', video_action:'complete', video_title:vName }); });
+    }
+});
+
+function switchLang(lang) {
+    document.querySelectorAll('[data-lang]').forEach(function (el) {
+        var inline = ['SPAN','A','STRONG'].includes(el.tagName);
+        el.style.display = el.getAttribute('data-lang') === lang ? (inline ? 'inline' : 'block') : 'none';
+    });
+    document.documentElement.lang = lang;
+}
 </script>
 </body>
 </html>
