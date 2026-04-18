@@ -382,39 +382,14 @@
     }
 
     async function applyGrowthBookChanges() {
-    const gb = window._growthbook;
-    if (!gb) return;
-
-    await gb.loadFeatures();
-
-    // --- LANCEMENT DE L'EXPÉRIENCE DE COULEUR ---
-    const result = gb.run({
-        key: "experiment-download-pdf-color",
-        variations: ["control", "teal-version"]
-    });
-
     const investorSection = document.getElementById("investors");
-
     if (investorSection) {
-        if (result.value === "teal-version") {
-            // VARIATION B : On applique le Teal
-            investorSection.style.backgroundColor = "#3d8b82";
-            console.log("🎨 Expérience : Groupe TEAL appliqué");
-        } else {
-            // VARIATION A : On s'assure que c'est la couleur originale (Bleu)
-            investorSection.style.backgroundColor = "#2C3E50";
-            console.log("🎨 Expérience : Groupe CONTRÔLE (Bleu) appliqué");
-        }
+        investorSection.style.backgroundColor = "#3d8b82"; // On force le Teal pour tester
+        console.log("🧪 Test : Couleur forcée en Teal");
     }
 }
 
-// Sécurité pour attendre le chargement du SDK
-if (window._growthbook) {
-    applyGrowthBookChanges();
-} else {
-    window.addEventListener('gbloaded', applyGrowthBookChanges);
-}
-
+    
 </script>
 </body>
 </html>
