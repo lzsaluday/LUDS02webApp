@@ -380,46 +380,35 @@
             }, 600); // Temps légèrement augmenté pour une transition plus fluide
         });
     }
-async function applyGrowthBookChanges() {
+
+    async function applyGrowthBookChanges() {
     const gb = window._growthbook;
     if (!gb) return;
 
-    // 1. On charge les données du SDK
     await gb.loadFeatures();
 
-    // 2. On lance l'expérience avec ton Experiment Key exacte
+    // --- LANCEMENT DE L'EXPÉRIENCE DE COULEUR ---
     const result = gb.run({
         key: "experiment-download-pdf-color",
         variations: ["control", "teal-version"]
     });
 
-    const pitchLink = document.getElementById("pitch-link");
     const investorSection = document.getElementById("investors");
 
-    // 3. Application des changements si l'utilisateur est dans la variante B
-    if (result.value === "teal-version") {
-        console.log("🚀 Groupe B : Application du thème Teal (#3d8b82)");
-        
-        // Changement de la couleur de fond de la section
-        if (investorSection) {
+    if (investorSection) {
+        if (result.value === "teal-version") {
+            // VARIATION B : On applique le Teal
             investorSection.style.backgroundColor = "#3d8b82";
+            console.log("🎨 Expérience : Groupe TEAL appliqué");
+        } else {
+            // VARIATION A : On s'assure que c'est la couleur originale (Bleu)
+            investorSection.style.backgroundColor = "#2C3E50";
+            console.log("🎨 Expérience : Groupe CONTRÔLE (Bleu) appliqué");
         }
-        
-        // Changement du lien et du texte du bouton
-        if (pitchLink) {
-            pitchLink.setAttribute("href", "pitch-details.html");
-            const spanFr = pitchLink.querySelector('[data-lang="fr"]');
-            const spanEn = pitchLink.querySelector('[data-lang="en"]');
-            
-            if (spanFr) spanFr.innerText = "Consulter le Pitch Deck";
-            if (spanEn) spanEn.innerText = "View Pitch Page";
-        }
-    } else {
-        console.log("🏠 Groupe A : Mode original (Bleu + PDF)");
     }
 }
 
-// Lancement sécurisé
+// Sécurité pour attendre le chargement du SDK
 if (window._growthbook) {
     applyGrowthBookChanges();
 } else {
