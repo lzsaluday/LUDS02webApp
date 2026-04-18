@@ -389,6 +389,13 @@
     }
 }
 
+    // Sécurité pour attendre le chargement du SDK
+if (window._growthbook) {
+    applyGrowthBookChanges();
+} else {
+    window.addEventListener('gbloaded', applyGrowthBookChanges);
+}
+
     
 </script>
 </body>
