@@ -1,47 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-W78GKJ9W');</script>
-    <!-- End Google Tag Manager -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>MédiCam | L'Intelligence Émotionnelle au Service du Soin</title>
+    <meta name="description" content="Découvrez MédiCam, l'assistant vidéo doté d'intelligence émotionnelle pour les professionnels de santé. Améliorez la relation thérapeutique et sécurisez vos diagnostics en temps réel.">
+    
+    <link rel="canonical" href="https://lzsaluday.github.io/LUDS02webApp/">
     <link rel="icon" type="image/svg+xml" href="./favicon.svg">
-    <!--
-    ╔══════════════════════════════════════════════════════════════╗
-    ║  EXPERIMENT : experiment-download-pdf-color                  ║
-    ║  Pour TESTER, ajoute ?variation=0 ou ?variation=1 à l'URL   ║
-    ║    ?variation=0  →  control      (navy  #2C3E50)             ║
-    ║    ?variation=1  →  teal-version (teal  #3d8b82)             ║
-    ╚══════════════════════════════════════════════════════════════╝
 
-    Ce script est intentionnellement INLINE et en tête de page
-    pour appliquer la couleur AVANT le rendu — pas de flash.
-    -->
     <script>
     (function () {
         var EXP_KEY = 'experiment-download-pdf-color';
-
-        /* ── 1. Variantes ─────────────────────────────────── */
         var VARIANTS = {
             0: { name: 'control',      color: '#2C3E50' },
             1: { name: 'teal-version', color: '#3d8b82' }
         };
 
-        /* ── 2. Override URL  (?variation=0 ou ?variation=1) ─
-           Priorité absolue — utile pour les tests et les démos  */
         function getUrlOverride() {
             var match = location.search.match(/[?&]variation=([01])/);
             return match ? parseInt(match[1], 10) : null;
         }
 
-        /* ── 3. Persistance cookie (30 jours) ──────────────── */
         function readCookie(name) {
             var m = document.cookie.match('(?:^|; )' + name + '=([^;]*)');
             return m ? decodeURIComponent(m[1]) : null;
@@ -52,8 +38,6 @@
                 + '; expires=' + exp + '; path=/; SameSite=Lax';
         }
 
-        /* ── 4. Assignation déterministe (FNV-32a) ──────────
-           Même algo que GrowthBook pour la cohérence           */
         function getUserId() {
             var uid = readCookie('gb_uid');
             if (!uid) {
@@ -69,39 +53,34 @@
                 hash ^= str.charCodeAt(i);
                 hash  = (hash * 16777619) >>> 0;
             }
-            return (hash % 1000) < 500 ? 0 : 1; /* 50 / 50 */
+            return (hash % 1000) < 500 ? 0 : 1;
         }
 
-        /* ── 5. Résolution de la variante ──────────────────── */
         var override    = getUrlOverride();
         var uid         = getUserId();
         var varIdx      = override !== null ? override : assignVariation(uid);
 
-        /* Si override URL → on écrase le cookie pour garder la cohérence
-           sur toute la session de test                              */
         if (override !== null) writeCookie('gb_uid', uid + '_ov' + override, 1);
 
         var variant = VARIANTS[varIdx];
 
-        /* ── 6. Injection CSS immédiate (avant rendu) ──────── */
         var style = document.createElement('style');
-        style.textContent =
-            '#investors { background-color: ' + variant.color + ' !important; }';
+        style.textContent = '#investors { background-color: ' + variant.color + ' !important; }';
         document.head.appendChild(style);
 
-        /* ── 7. Expose pour le reste du script ─────────────── */
         window.__exp = { key: EXP_KEY, varIdx: varIdx, variant: variant, uid: uid };
     })();
     </script>
 
     <style>
         :root {
-            --primary: #528B8B;
+            --primary: #06b6d4; /* Changement de couleur pour matcher le nouveau logo MédiCam */
+            --primary-dark: #0891b2;
             --accent: #2C3E50;
             --light-bg: #F8FAFA;
             --white: #ffffff;
-            --text: #333;
-            --patient-soft: #E9F2F2;
+            --text: #334155;
+            --patient-soft: #ecfeff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
@@ -117,45 +96,56 @@
         }
         .nav-right { display: flex; gap: 15px; align-items: center; }
         .lang-switch { cursor: pointer; font-size: 1.2rem; border: none; background: none; padding: 5px; }
-        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
 
         .hero { padding: 140px 10% 60px; display: flex; align-items: center; gap: 40px; background: white; }
         .hero-text { flex: 1.2; }
         .hero-text h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 20px; color: var(--accent); }
-        .hero-text p  { font-size: 1.1rem; margin-bottom: 25px; max-width: 500px; }
+        .hero-text p  { font-size: 1.1rem; margin-bottom: 25px; max-width: 550px; color: #64748b; }
         .video-container { flex: 1; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1); background: #000; aspect-ratio: 16/9; }
 
-        .features { padding: 60px 10%; display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 25px; }
-        .feature-card { background: white; padding: 30px; border-radius: 12px; border-left: 5px solid var(--primary); }
-        .feature-card h3 { margin-bottom: 12px; color: var(--primary); font-size: 1.3rem; }
+        .section-title { text-align: center; font-size: 2.2rem; color: var(--accent); margin-bottom: 10px; }
+        .section-subtitle { text-align: center; color: #64748b; margin-bottom: 40px; font-size: 1.1rem; }
 
-        #investors { color: white; padding: 70px 10%; text-align: center; transition: background-color 0s; }
+        .features { padding: 80px 10%; background: #fff; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 25px; }
+        .feature-card { background: var(--light-bg); padding: 35px; border-radius: 12px; border-top: 5px solid var(--primary); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .feature-card h3 { margin-bottom: 12px; color: var(--accent); font-size: 1.4rem; }
+        .feature-card p { color: #64748b; font-size: 0.95rem; }
+
+        #investors { color: white; padding: 80px 10%; text-align: center; transition: background-color 0s; }
         .investor-box { max-width: 700px; margin: 30px auto; padding: 35px; border-radius: 15px; background: rgba(255,255,255,0.08); }
 
         .btn { padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; display: inline-block; transition: 0.2s; cursor: pointer; border: none; }
         .btn-primary { background: var(--primary); color: white; }
-        .btn-outline  { border: 2px solid white; color: white; }
-        .btn-patient  { border: 1px solid var(--primary); color: var(--primary); font-size: 0.85rem; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-outline  { border: 2px solid white; color: white; background: transparent; }
+        .btn-outline:hover { background: white; color: var(--accent); }
+        .btn-patient  { border: 1px solid var(--primary); color: var(--primary); font-size: 0.85rem; background: transparent; }
+        .btn-patient:hover { background: var(--primary); color: white; }
 
-        .patient-info { background-color: var(--patient-soft); padding: 70px 10%; }
-        .patient-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 30px; margin-top: 30px; }
-        .patient-item h4 { color: var(--accent); margin-bottom: 8px; }
-
-        .cta-section { padding: 80px 10%; text-align: center; }
-        .form-container { max-width: 450px; margin: 30px auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
-        input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 4px; }
+        .patient-info { background-color: var(--patient-soft); padding: 80px 10%; }
+        .patient-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(300px,1fr)); gap: 30px; margin-top: 40px; }
+        .patient-item { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .patient-item h3 { color: var(--accent); margin-bottom: 12px; font-size: 1.25rem; }
+        .patient-item p { color: #64748b; }
 
         .faq-section { padding: 80px 10%; background: var(--white); }
-        .faq-container { max-width: 800px; margin: 40px auto; }
-        .faq-item { border-bottom: 1px solid #eee; padding: 20px 0; cursor: pointer; }
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid #e2e8f0; padding: 22px 0; cursor: pointer; }
         .faq-question { display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: var(--accent); font-size: 1.1rem; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: #666; margin-top: 10px; font-size: 0.95rem; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; color: #475569; margin-top: 10px; font-size: 0.95rem; }
         .faq-item.active .faq-answer { max-height: 200px; }
         .faq-toggle { transition: 0.3s; color: var(--primary); font-size: 1.5rem; }
 
-        footer { padding: 40px; background: #1a1a1a; color: #bbb; text-align: center; font-size: 0.85rem; }
+        .cta-section { padding: 80px 10%; background: var(--light-bg); }
+        .form-container { max-width: 450px; margin: 0 auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1rem; }
+        input:focus { outline: 2px solid var(--primary); }
 
-        /* ── Badge debug ── retire en production ────────────── */
+        footer { padding: 50px 10%; background: #0f172a; color: #94a3b8; text-align: center; font-size: 0.85rem; line-height: 1.8; }
+        footer p { margin-bottom: 8px; }
+
         #exp-badge {
             position: fixed; bottom: 14px; right: 14px;
             padding: 6px 14px; border-radius: 999px;
@@ -166,9 +156,9 @@
         #exp-badge.teal-version { background: #3d8b82; color: #fff; }
 
         @media (max-width: 768px) {
-            .hero { flex-direction: column; text-align: center; padding-top: 100px; }
-            .hero-text h1 { font-size: 2rem; }
-            nav { padding: 10px; flex-direction: column; gap: 10px; }
+            .hero { flex-direction: column; text-align: center; padding-top: 160px; gap: 30px; }
+            .hero-text h1 { font-size: 2.2rem; }
+            nav { padding: 15px 2%; flex-direction: column; gap: 15px; }
         }
     </style>
 
@@ -182,14 +172,16 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W78GKJ9W"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <!-- Badge debug — retire en production -->
     <div id="exp-badge"></div>
 
-    <nav>
-        <div class="logo">MédiCam</div>
+    <nav role="navigation" aria-label="Menu principal">
+        <div class="logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 11v6"></path><path d="M9 14h6"></path></svg>
+            MédiCam
+        </div>
         <div class="nav-right">
-            <button class="lang-switch" onclick="switchLang('fr')">🇫🇷</button>
-            <button class="lang-switch" onclick="switchLang('en')">🇬🇧</button>
+            <button class="lang-switch" onclick="switchLang('fr')" aria-label="Changer la langue en Français">🇫🇷</button>
+            <button class="lang-switch" onclick="switchLang('en')" aria-label="Switch language to English">🇬🇧</button>
             <a href="#patients" class="btn btn-patient">
                 <span data-lang="fr">Espace Patient</span>
                 <span data-lang="en">Patient Area</span>
@@ -201,187 +193,195 @@
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="hero-text">
-            <h1 data-lang="fr">Comprenez mieux vos patients avec MédiCam</h1>
-            <h1 data-lang="en">Understand your patients better with MédiCam</h1>
-            <p data-lang="fr">Utilisez l'intelligence émotionnelle en temps réel pour sécuriser vos diagnostics et renforcer la confiance.</p>
-            <p data-lang="en">Use real-time emotional intelligence to secure your diagnosis and strengthen trust.</p>
-            <a href="#register" class="btn btn-primary">
-                <span data-lang="fr">Valider ma pré-inscription</span>
-                <span data-lang="en">Pre-register now</span>
-            </a>
-        </div>
-        <div class="video-container">
-            <video controls poster="poster.png" style="width:100%;height:100%;object-fit:cover;">
-                <source src="medicam.mp4" type="video/mp4">
-            </video>
-        </div>
-    </header>
+    <main>
+        <header class="hero">
+            <div class="hero-text">
+                <h1 data-lang="fr">Comprenez mieux vos patients et l'expression de leurs symptômes avec MédiCam</h1>
+                <h1 data-lang="en">Understand your patients better and their symptom expressions with MédiCam</h1>
+                <p data-lang="fr">MédiCam est un système d'imagerie clinique innovant assisté par IA. En analysant l'intelligence émotionnelle et les micro-signes en temps réel, l'appareil aide les praticiens à décoder le stress, l'anxiété et la douleur pour sécuriser chaque étape du diagnostic médical.</p>
+                <p data-lang="en">MédiCam is an innovative AI-assisted clinical imaging system. By analyzing emotional intelligence and micro-signals in real time, the device helps practitioners decode stress, anxiety, and pain to secure every step of medical diagnosis.</p>
+                <a href="#register" class="btn btn-primary">
+                    <span data-lang="fr">Valider ma pré-inscription</span>
+                    <span data-lang="en">Pre-register now</span>
+                </a>
+            </div>
+            <div class="video-container">
+                <video controls poster="poster.png" style="width:100%;height:100%;object-fit:cover;" aria-label="Vidéo de présentation MédiCam">
+                    <source src="medicam.mp4" type="video/mp4">
+                </video>
+            </div>
+        </header>
 
-    <section class="features">
-        <div class="feature-card">
-            <h3 data-lang="fr">Dégagez l'essentiel</h3>
-            <h3 data-lang="en">Capture the Essentials</h3>
-            <p data-lang="fr">L'IA analyse les micro-expressions et la voix pour détecter le stress invisible.</p>
-            <p data-lang="en">AI analyzes micro-expressions and voice to detect invisible stress.</p>
-        </div>
-        <div class="feature-card">
-            <h3 data-lang="fr">Libérez votre pratique</h3>
-            <h3 data-lang="en">Free your Practice</h3>
-            <p data-lang="fr">Une caméra-clip autonome pendant 24h qui s'oublie sur votre blouse.</p>
-            <p data-lang="en">A clip-on camera with 24h battery life that blends into your daily routine.</p>
-        </div>
-        <div class="feature-card">
-            <h3 data-lang="fr">Décidez avec précision</h3>
-            <h3 data-lang="en">Decide with Precision</h3>
-            <p data-lang="fr">Recevez des indicateurs clairs sur mobile pour adapter votre échange instantanément.</p>
-            <p data-lang="en">Receive clear mobile insights to adapt your interaction instantly.</p>
-        </div>
-    </section>
+        <section id="features" class="features">
+            <h2 class="section-title" data-lang="fr">L'innovation au cœur de la consultation médicale</h2>
+            <h2 class="section-title" data-lang="en">Innovation at the Core of Medical Consultation</h2>
+            <p class="section-subtitle" data-lang="fr">Découvrez comment notre technologie d'analyse vidéo transforme la relation thérapeutique.</p>
+            <p class="section-subtitle" data-lang="en">Discover how our video analysis technology transforms the therapeutic relationship.</p>
+            
+            <div class="features-grid">
+                <article class="feature-card">
+                    <h3 data-lang="fr">Dégagez l'essentiel clinique</h3>
+                    <h3 data-lang="en">Capture Clinical Essentials</h3>
+                    <p data-lang="fr">Grâce à des capteurs optiques avancés, notre intelligence artificielle analyse en continu les micro-expressions du visage et les fluctuations de la voix. Elle identifie les pics de stress invisible et aide à détecter des symptômes neuro-végétatifs sous-jacents.</p>
+                    <p data-lang="en">Thanks to advanced optical sensors, our artificial intelligence continuously analyzes micro-expressions of the face and voice fluctuations. It identifies invisible stress peaks and helps detect underlying neurovegetative symptoms.</p>
+                </article>
+                <article class="feature-card">
+                    <h3 data-lang="fr">Libérez votre pratique médicale</h3>
+                    <h3 data-lang="en">Free Your Medical Practice</h3>
+                    <p data-lang="fr">L'appareil MédiCam se présente sous la forme d'un boîtier caméra-clip ultra-léger et discret. Doté d'une autonomie continue de 24 heures, il se fixe simplement sur la blouse du médecin pour se faire oublier, garantissant un échange naturel et sans barrière technologique.</p>
+                    <p data-lang="en">The MédiCam device comes as an ultra-lightweight and discrete clip-on camera box. Featuring 24-hour continuous battery life, it simply clips onto the doctor's coat, ensuring a natural interaction without technological barriers.</p>
+                </article>
+                <article class="feature-card">
+                    <h3 data-lang="fr">Décidez avec haute précision</h3>
+                    <h3 data-lang="en">Decide with High Precision</h3>
+                    <p data-lang="fr">Les données récoltées par l'objectif de numérisation sont traduites instantanément en indicateurs de confort ou d'alerte sur votre application mobile ou écran de cabinet. Vous adaptez votre posture d'écoute, calmez l'inquiétude et affinez l'anamnèse en toute sérénité.</p>
+                    <p data-lang="en">The data gathered by the scanning lens is instantly translated into comfort or alert indicators on your mobile app or office monitor. You adapt your listening posture, ease anxiety, and refine the anamnesis with confidence.</p>
+                </article>
+            </div>
+        </section>
 
-    <section id="investors">
-        <h2 data-lang="fr">Investissez dans l'avenir de la santé</h2>
-        <h2 data-lang="en">Invest in the future of healthcare</h2>
-        <div class="investor-box">
-            <p data-lang="fr">Rejoignez un marché technologique à fort impact. Accédez à nos données de croissance mondiales.</p>
-            <p data-lang="en">Join a high-impact tech market. Access our global growth data.</p>
-            <a id="pitch-link" href="Pitch.pdf" target="_blank" class="btn btn-outline" style="margin-top:15px;">
-                <span data-lang="fr">Consulter le Pitch Deck (PDF)</span>
-                <span data-lang="en">View Pitch Deck (PDF)</span>
-            </a>
-        </div>
-    </section>
+        <section id="investors">
+            <h2 data-lang="fr">Investissez dans l'avenir et la digitalisation de la santé</h2>
+            <h2 data-lang="en">Invest in the Future and Digitalization of Healthcare</h2>
+            <div class="investor-box">
+                <p data-lang="fr">Rejoignez une aventure technologique à fort impact sociétal. Le marché de la e-santé et de l'imagerie médicale prédictive connaît une croissance sans précédent. Accédez dès aujourd'hui à nos données financières et de croissance mondiales.</p>
+                <p data-lang="en">Join a high-impact societal tech venture. The e-health and predictive medical imaging market is experiencing unprecedented growth. Access our financial and global growth data today.</p>
+                <a id="pitch-link" href="Pitch.pdf" target="_blank" class="btn btn-outline" style="margin-top:15px;">
+                    <span data-lang="fr">Consulter le Pitch Deck (PDF)</span>
+                    <span data-lang="en">View Pitch Deck (PDF)</span>
+                </a>
+            </div>
+        </section>
 
-    <section id="patients" class="patient-info">
-        <div style="max-width:800px;margin:0 auto;text-align:center;">
-            <h2 data-lang="fr">MédiCam : Pour un soin plus humain</h2>
-            <h2 data-lang="en">MédiCam: For more human care</h2>
-            <p data-lang="fr">Votre médecin utilise cet outil pour mieux comprendre vos besoins et vos émotions durant l'échange.</p>
-            <p data-lang="en">Your doctor uses this tool to better understand your needs and emotions during the consultation.</p>
-            <div class="patient-grid">
-                <div class="patient-item" style="text-align:left;">
-                    <h4 data-lang="fr">Données protégées</h4>
-                    <h4 data-lang="en">Data protection</h4>
-                    <p data-lang="fr">Aucun enregistrement n'est conservé. Le traitement s'effectue en temps réel et en toute confidentialité.</p>
-                    <p data-lang="en">No recordings are kept. Processing is done in real-time and remains strictly confidential.</p>
-                </div>
-                <div class="patient-item" style="text-align:left;">
-                    <h4 data-lang="fr">Écoute augmentée</h4>
-                    <h4 data-lang="en">Enhanced listening</h4>
-                    <p data-lang="fr">MédiCam aide le professionnel à être plus attentif à vos signaux de douleur ou d'inquiétude.</p>
-                    <p data-lang="en">MédiCam helps professionals stay alert to signals of pain or concern.</p>
+        <section id="patients" class="patient-info">
+            <div style="max-width:800px;margin:0 auto;text-align:center;">
+                <h2 data-lang="fr">MédiCam : Un engagement éthique pour un soin plus humain</h2>
+                <h2 data-lang="en">MédiCam: An Ethical Commitment for More Human Care</h2>
+                <p data-lang="fr">L'utilisation de la caméra médicale s'inscrit dans une démarche d'écoute augmentée. Votre médecin s'appuie sur cet outil innovant pour mieux objectiver vos ressentis et vos émotions durant la consultation médicale.</p>
+                <p data-lang="en">The use of the medical camera is part of an enhanced listening approach. Your doctor relies on this innovative tool to better objectify your feelings and emotions during the medical consultation.</p>
+                
+                <div class="patient-grid">
+                    <article class="patient-item" style="text-align:left;">
+                        <h3 data-lang="fr">Données de santé protégées</h3>
+                        <h3 data-lang="en">Protected Health Data</h3>
+                        <p data-lang="fr">Conformément aux réglementations RGPD et secret médical, aucun enregistrement vidéo ou audio n'est conservé dans l'appareil ni sur aucun serveur. Le traitement de flux s'effectue localement, en temps réel et sous anonymisation complète.</p>
+                        <p data-lang="en">In accordance with GDPR regulations and medical confidentiality, no video or audio recording is stored inside the device or on any server. Stream processing is done locally, in real time, and with complete anonymity.</p>
+                    </article>
+                    <article class="patient-item" style="text-align:left;">
+                        <h3 data-lang="fr">Écoute et empathie augmentées</h3>
+                        <h3 data-lang="en">Enhanced Listening and Empathy</h3>
+                        <p data-lang="fr">MédiCam aide le professionnel à identifier immédiatement les signaux faibles ou masqués de douleur intense, de détresse psychologique ou d'inquiétude, renforçant la qualité du diagnostic final et l'alliance thérapeutique.</p>
+                        <p data-lang="en">MédiCam helps professionals immediately identify weak or masked signals of severe pain, psychological distress, or anxiety, strengthening the quality of the final diagnosis and the therapeutic alliance.</p>
+                    </article>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="faq" class="faq-section">
-        <div style="text-align:center;margin-bottom:40px;">
-            <h2 data-lang="fr">Questions Fréquentes</h2>
-            <h2 data-lang="en">Frequently Asked Questions</h2>
-            <p data-lang="fr">Tout ce qu'il faut savoir sur l'assistant MédiCam.</p>
-            <p data-lang="en">Everything you need to know about the MédiCam assistant.</p>
-        </div>
-        <div class="faq-container">
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span data-lang="fr">Comment MédiCam respecte-t-il le secret médical ?</span>
-                    <span data-lang="en">How does MédiCam respect medical confidentiality?</span>
-                    <span class="faq-toggle">+</span>
+        <section id="faq" class="faq-section">
+            <div style="text-align:center;margin-bottom:40px;">
+                <h2 data-lang="fr">Questions Fréquentes (FAQ)</h2>
+                <h2 data-lang="en">Frequently Asked Questions (FAQ)</h2>
+                <p data-lang="fr">Tout ce qu'il faut savoir sur l'intégration de l'assistant médical MédiCam.</p>
+                <p data-lang="en">Everything you need to know about integrating the MédiCam medical assistant.</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span data-lang="fr">Comment MédiCam respecte-t-il le secret médical et la vie privée ?</span>
+                        <span data-lang="en">How does MédiCam respect medical confidentiality and privacy?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-lang="fr">MédiCam ne stocke aucune donnée audio ou vidéo. L'analyse algorithmique s'effectue en flux tendu direct volatile, et les métadonnées de diagnostic générées sont cryptées de bout en bout selon les normes de sécurité de santé.</p>
+                        <p data-lang="en">MédiCam does not store any audio or video data. Algorithmic analysis is performed on a live, volatile stream, and the generated diagnostic metadata is encrypted end-to-end according to healthcare security standards.</p>
+                    </div>
                 </div>
-                <div class="faq-answer">
-                    <p data-lang="fr">MédiCam ne stocke aucune donnée audio ou vidéo. L'analyse se fait en flux tendu et les données sont cryptées de bout en bout.</p>
-                    <p data-lang="en">MédiCam does not store any audio or video data. Analysis is performed in real-time and data is encrypted end-to-end.</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span data-lang="fr">L'intelligence artificielle peut-elle se tromper dans son analyse ?</span>
+                        <span data-lang="en">Can the artificial intelligence make mistakes in its analysis?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-lang="fr">MédiCam agit comme un assistant technologique d'aide à la communication, et non comme un outil de diagnostic automatisé autonome. Le médecin garde le contrôle absolu sur l'interprétation finale et sur la prescription médicale.</p>
+                        <p data-lang="en">MédiCam acts as a communication support technology assistant, not as an automated standalone diagnostic tool. The physician retains absolute control over the final interpretation and medical prescription.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span data-lang="fr">Quels sont les tarifs de l'abonnement pour un cabinet ou une clinique ?</span>
+                        <span data-lang="en">What are the subscription rates for a practice or clinic?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-lang="fr">Nous proposons plusieurs formules tarifaires flexibles selon que vous exerciez en cabinet libéral individuel ou au sein d'une structure hospitalière publique / privée. Contactez nos équipes commerciales via le formulaire de pré-inscription pour obtenir une estimation tarifaire sur-mesure.</p>
+                        <p data-lang="en">We offer several flexible pricing models depending on whether you practice in a solo private office or within a public / private hospital structure. Contact our sales teams via the pre-registration form to get a tailored pricing estimate.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span data-lang="fr">Le dispositif d'imagerie MédiCam est-il compatible avec mon logiciel de santé ?</span>
+                        <span data-lang="en">Is the MédiCam imaging device compatible with my healthcare software?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p data-lang="fr">Oui, MédiCam a été développé selon des standards ouverts et s'interface parfaitement via une application compagnon mobile ou des passerelles API sécurisées compatibles avec les principaux logiciels de gestion de dossiers patients du marché.</p>
+                        <p data-lang="en">Yes, MédiCam was developed using open standards and interfaces seamlessly via a mobile companion app or secure API gateways compatible with the main electronic health record (EHR) software on the market.</p>
+                    </div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span data-lang="fr">L'IA peut-elle se tromper dans son analyse ?</span>
-                    <span data-lang="en">Can the AI make mistakes in its analysis?</span>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p data-lang="fr">MédiCam est un assistant de communication, pas un outil de diagnostic autonome.</p>
-                    <p data-lang="en">MédiCam is a communication assistant, not a standalone diagnostic tool.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span data-lang="fr">Quels sont les tarifs de l'abonnement ?</span>
-                    <span data-lang="en">What are the subscription rates?</span>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p data-lang="fr">Nous proposons plusieurs formules adaptées à votre structure. Contactez-nous via le formulaire.</p>
-                    <p data-lang="en">We offer several packages. Contact us via the pre-registration form.</p>
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">
-                    <span data-lang="fr">Le dispositif est-il compatible avec mon logiciel ?</span>
-                    <span data-lang="en">Is the device compatible with my software?</span>
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-answer">
-                    <p data-lang="fr">Oui, MédiCam s'interface via une application mobile ou une API sécurisée.</p>
-                    <p data-lang="en">Yes, MédiCam interfaces via a dedicated mobile application or a secure API.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="register" class="cta-section">
-        <h2 data-lang="fr">Adoptez MédiCam dès aujourd'hui</h2>
-        <h2 data-lang="en">Adopt MédiCam today</h2>
-        <div class="form-container">
-            <form id="launchForm">
-                <input type="text"  placeholder="Name"  required>
-                <input type="email" placeholder="Email" required>
-                <button type="submit" class="btn btn-primary" style="width:100%;">
-                    <span data-lang="fr">Envoyer</span>
-                    <span data-lang="en">Send</span>
-                </button>
-            </form>
-            <div id="successMsg" style="display:none;color:var(--primary);font-weight:bold;margin-top:15px;">
-                <span data-lang="fr">Merci ! Nous vous recontacterons rapidement.</span>
-                <span data-lang="en">Thank you! We will contact you shortly.</span>
+        <section id="register" class="cta-section">
+            <h2 class="section-title" data-lang="fr">Adoptez MédiCam au sein de votre structure dès aujourd'hui</h2>
+            <h2 class="section-title" data-lang="en">Adopt MédiCam Within Your Structure Today</h2>
+            <div class="form-container">
+                <form id="launchForm">
+                    <input type="text"  placeholder="Nom et Prénom du Praticien" aria-label="Nom complet" required>
+                    <input type="email" placeholder="Adresse Email Professionnelle" aria-label="Email professionnel" required>
+                    <button type="submit" class="btn btn-primary" style="width:100%;">
+                        <span data-lang="fr">Envoyer ma demande</span>
+                        <span data-lang="en">Send my request</span>
+                    </button>
+                </form>
+                <div id="successMsg" style="display:none;color:var(--primary-dark);font-weight:bold;margin-top:15px;text-align:center;">
+                    <span data-lang="fr">✓ Merci ! Nos conseillers en e-santé vous recontacteront sous 24h.</span>
+                    <span data-lang="en">✓ Thank you! Our e-health advisors will get back to you within 24 hours.</span>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
-        <p>&copy; 2026 MédiCam Global Health.</p>
-        <p data-lang="fr">Expertise et innovation au service de la relation thérapeutique.</p>
-        <p data-lang="en">Expertise and innovation at the service of the therapeutic relationship.</p>
+        <p>&copy; 2026 MédiCam Global Health. Tous droits réservés.</p>
+        <p data-lang="fr">Expertise, éthique et innovation au service de la relation thérapeutique et de la performance des soins cliniques.</p>
+        <p data-lang="en">Expertise, ethics and innovation at the service of the therapeutic relationship and clinical care performance.</p>
     </footer>
 
 <script>
 window.dataLayer = window.dataLayer || [];
 
-/* ── Badge debug + tracking au chargement ──────────────── */
 window.addEventListener('DOMContentLoaded', function () {
     var exp     = window.__exp;
     var badge   = document.getElementById('exp-badge');
 
-    /* Badge */
-    if (badge) {
+    if (badge && exp) {
         badge.textContent  = '🧪 ' + exp.variant.name + (location.search.includes('variation=') ? ' (forcé)' : '');
         badge.className    = exp.variant.name;
     }
 
-    /* Tracking : exposition experiment → GTM */
-    window.dataLayer.push({
-        event:          'experiment_viewed',
-        experiment_id:  exp.key,
-        variation_id:   exp.varIdx,
-        variation_name: exp.variant.name,
-        user_id:        exp.uid
-    });
+    if (exp) {
+        window.dataLayer.push({
+            event:          'experiment_viewed',
+            experiment_id:  exp.key,
+            variation_id:   exp.varIdx,
+            variation_name: exp.variant.name,
+            user_id:        exp.uid
+        });
+    }
 
-    /* Tracking : clic Pitch PDF (conversion primaire) */
     var pitchLink = document.getElementById('pitch-link');
-    if (pitchLink) {
+    if (pitchLink && exp) {
         pitchLink.addEventListener('click', function () {
             window.dataLayer.push({
                 event:          'pitch_link_click',
@@ -392,12 +392,11 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* Formulaire */
     var form = document.getElementById('launchForm');
     if (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            window.dataLayer.push({ event: 'form_submit', experiment_id: exp.key });
+            if (exp) window.dataLayer.push({ event: 'form_submit', experiment_id: exp.key });
             this.style.opacity = '0.5';
             this.style.pointerEvents = 'none';
             setTimeout(function () {
@@ -408,13 +407,11 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    /* Langue + FAQ */
     switchLang('fr');
     document.querySelectorAll('.faq-item').forEach(function (item) {
         item.addEventListener('click', function () { this.classList.toggle('active'); });
     });
 
-    /* Video tracking */
     var video = document.querySelector('video');
     if (video) {
         var vName = ((video.querySelector('source') || {}).src || 'medicam').split('/').pop();
