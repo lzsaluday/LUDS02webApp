@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erreur 404 - Page Introuvable | MédiCam</title>
+    <meta name="description" content="La page que vous recherchez sur MédiCam est introuvable. Retournez à l'accueil pour découvrir notre assistant d'imagerie clinique et d'intelligence émotionnelle.">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+    
+    <style>
+        :root {
+            --primary: #06b6d4;
+            --primary-dark: #0891b2;
+            --accent: #2C3E50;
+            --light-bg: #F8FAFA;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header / Nav de secours */
+        nav {
+            background: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        /* Conteneur Principal */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 10%;
+        }
+
+        .error-container {
+            text-align: center;
+            max-width: 600px;
+            background: var(--white);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
+            border-top: 6px solid var(--primary);
+        }
+
+        /* Visuel Iconique MédiCam Stylisé Erreur */
+        .error-icon {
+            margin-bottom: 25px;
+            color: #e2e8f0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .error-number {
+            font-size: 6rem;
+            font-weight: 900;
+            color: #e2e8f0;
+            line-height: 1;
+            letter-spacing: -2px;
+        }
+
+        .error-svg-overlay {
+            position: absolute;
+            bottom: -5px;
+            right: -10px;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        p {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Liens de redirection */
+        .navigation-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            max-width: 280px;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            border: 1px solid #cbd5e1;
+            color: var(--accent);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 25px;
+            background: #0f172a;
+            color: #94a3b8;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 11v6"></path><path d="M9 14h6"></path></svg>
+            MédiCam
+        </a>
+    </nav>
+
+    <main>
+        <div class="error-container">
+            <div class="error-icon" aria-hidden="true">
+                <span class="error-number">404</span>
+                <div class="error-svg-overlay">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </div>
+            </div>
+
+            <h1>Signal interrompu : Page introuvable</h1>
+            
+            <p>L'adresse que vous avez saisie ou le lien que vous avez suivi n'est plus actif ou n'existe pas. Nos outils d'intelligence émotionnelle clinique n'ont détecté aucune donnée médicale à cet emplacement.</p>
+            
+            <div class="navigation-links">
+                <a href="index.html" class="btn btn-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    Retourner à l'accueil
+                </a>
+                <a href="index.html#faq" class="btn btn-outline">
+                    Besoin d'aide ? Consulter la FAQ
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 MédiCam Global Health. Sécurisation et éthique de la relation thérapeutique.</p>
+    </footer>
+
+</body>
+</html>
